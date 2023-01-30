@@ -2,10 +2,10 @@
 2 ' COPYRIGHT, GEORGE M. RIMAKIS, 2023.
 3 ' ALL RIGHTS RESERVED.
 900 GOTO 14000
-1000 IF CY-1<0 THEN YL = 0 ELSE YL = -1 : REM set y lower bound
-1010 IF CY+1>7 THEN YU = 0 ELSE YU = 1 : REM set y upper bound
-1020 IF CX-1<0 THEN XL = 0 ELSE XL = -1 : REM set x lower bound
-1030 IF CX+1>31 THEN XU = 0 ELSE XU = 1 : REM set x upper bound
+1000 IF CY-1<0 THEN YL = 0 ELSE YL = -1 'set y lower bound
+1010 IF CY+1>7 THEN YU = 0 ELSE YU = 1 'set y upper bound
+1020 IF CX-1<0 THEN XL = 0 ELSE XL = -1 'set x lower bound
+1030 IF CX+1>31 THEN XU = 0 ELSE XU = 1 'set x upper bound
 1040 RETURN
 2915 PRINT @ 192," SQUARES";:PRINT @ 232,"   LEFT:";
 2916 PRINT @ 272,"        ";:PRINT @ 272,"    "+STR$(MC%);
@@ -27,7 +27,7 @@
 3700 PRINTCF$;
 4000 IF M=1 THEN GOTO 5000
 4002 PRINT @ 129,"CALCULATING...";
-4010 N=0 : REM minefield generation starts here
+4010 N=0 'minefield generation starts here
 4020 SEC = -60*VAL(MID$(TIME$,4,2))+VAL(RIGHT$(TIME$,2))
 4030 DUMMY= RND(SE)
 4040 DUMMY= RND(1)
@@ -38,13 +38,13 @@
 4105 IF DY=Y-1 OR DY=Y OR DY=Y+1 THEN GOTO 4070
 4110 IF S%(DX,DY,0)=0 THEN S%(DX,DY,0)=1 ELSE GOTO 4040
 4120 N = N+1:GOTO 4040
-4200 M=1 : REM minefield generation complete
+4200 M=1 'minefield generation complete
 4300 FOR Q=0 TO 13
 4400 PRINT @ 129+Q,CHR$(239)
 4450 NEXT Q
 4500 GOTO 5000
-5000 IF S%(X,Y,0)=1 THEN GOTO 10000 : REM reveal board if we hit a mine
-5010 IF S%(X,Y,0)=2 THEN GOTO 3000 : REM go back to mail loop if cleared
+5000 IF S%(X,Y,0)=1 THEN GOTO 10000 'reveal board if we hit a mine
+5010 IF S%(X,Y,0)=2 THEN GOTO 3000 'go back to mail loop if cleared
 5020 S%(X,Y,0)=2:MC%=MC%-1 
 5050 ST%(W%,0)=X:ST%(W%,1)=Y:W%=W%+1
 5060 CX=ST%(R%,0):CY=ST%(R%,1):R%=R%+1

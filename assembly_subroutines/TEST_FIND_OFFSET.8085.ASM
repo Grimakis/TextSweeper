@@ -1,7 +1,8 @@
     ;START
+    NOP
     LXI D, 2000H ; I% memory location, needs' to be assigned
     PUSH D ; we'll get that back later'
-    MVI E, 0H
+    MVI E, FFH
     MOV B,A ; B contains the index we want
     
 LO: MOV D, A ; stored adjusted index

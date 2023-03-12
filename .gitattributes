@@ -1,0 +1,9 @@
+# File Extension Reclassification
+*.DO linguist-language=BASIC
+
+# Ignore Generated Code
+ascii_packed/* linguist-generated
+tokenized_packed/* linguist-generated
+
+# Ignore Vendor Code
+*.ipynb linguist-vendored

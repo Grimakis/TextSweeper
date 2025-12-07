@@ -53,8 +53,6 @@ TextSweeper brings the classic Minesweeper game to the TRS-80 Model 100 and comp
 ### Distribution Files
 - **`dist/TSWEEP_compact.DO`** - CI-generated compact ASCII ready for TELCOM
 - **`dist/TSWEEP_tokenized.BA`** - CI-generated tokenized binary for mComm/DeskLink
-- **`ascii_packed/TSWEEP.DO`** - Manually packed ASCII version for TELCOM transfer
-- **`tokenized_packed/TSWEEP.BA`** - Manually tokenized binary for mComm/DeskLink transfer
 
 ### Assembly Subroutines
 Performance-critical routines written in 8085 assembly:
@@ -83,12 +81,12 @@ Performance-critical routines written in 8085 assembly:
 ## Installation
 
 ### For TELCOM (Serial Transfer)
-1. Use `ascii_packed/TSWEEP.DO`
+1. Use `dist/TSWEEP_compact.DO` (from CI artifacts or Release downloads)
 2. Transfer via serial connection
 3. Load and run in BASIC
 
 ### For mComm/DeskLink (Direct File Transfer)
-1. Use `tokenized_packed/TSWEEP.BA`
+1. Use `dist/TSWEEP_tokenized.BA` (from CI artifacts or Release downloads)
 2. Copy directly to Model 100 filesystem
 3. Run from MENU
 

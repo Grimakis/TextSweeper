@@ -30,7 +30,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            dist/TSWEEP_compact.DO
-            dist/TSWEEP_tokenized.BA
+            dist/ascii_packed/TSWEEP.DO
+            dist/tokenized_packed/TSWEEP.BA
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -51,8 +51,8 @@ TextSweeper brings the classic Minesweeper game to the TRS-80 Model 100 and comp
 - **`src/TSWEEP.DO`** - Fully commented source code with original formatting
 
 ### Distribution Files
-- **`dist/TSWEEP_compact.DO`** - CI-generated compact ASCII ready for TELCOM
-- **`dist/TSWEEP_tokenized.BA`** - CI-generated tokenized binary for mComm/DeskLink
+- **`dist/ascii_packed/TSWEEP.DO`** - CI-generated compact ASCII ready for TELCOM
+- **`dist/tokenized_packed/TSWEEP.BA`** - CI-generated tokenized binary for mComm/DeskLink
 
 ### Assembly Subroutines
 Performance-critical routines written in 8085 assembly:
@@ -75,18 +75,18 @@ Performance-critical routines written in 8085 assembly:
 - **`.github/workflows/release.yml`** - Release workflow that packages and attaches artifacts to GitHub Releases
 
 ### Build & Release
-- Run `scripts/build_release.sh` to generate `dist/TSWEEP_compact.DO` and `dist/TSWEEP_tokenized.BA` using the submodule tools.
+- Run `scripts/build_release.sh` to generate `dist/ascii_packed/TSWEEP.DO` and `dist/tokenized_packed/TSWEEP.BA` using the submodule tools.
 - The GitHub Actions workflow checks out submodules, runs the build script, uploads the `dist/` artifacts, and attaches them to a published Release.
 
 ## Installation
 
 ### For TELCOM (Serial Transfer)
-1. Use `dist/TSWEEP_compact.DO` (from CI artifacts or Release downloads)
+1. Use `dist/ascii_packed/TSWEEP.DO` (from CI artifacts or Release downloads)
 2. Transfer via serial connection
 3. Load and run in BASIC
 
 ### For mComm/DeskLink (Direct File Transfer)
-1. Use `dist/TSWEEP_tokenized.BA` (from CI artifacts or Release downloads)
+1. Use `dist/tokenized_packed/TSWEEP.BA` (from CI artifacts or Release downloads)
 2. Copy directly to Model 100 filesystem
 3. Run from MENU
 

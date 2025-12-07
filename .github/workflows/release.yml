@@ -1,0 +1,36 @@
+name: Build and Attach Model 100 Release Artifacts
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository (with submodules)
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Build compact and tokenized DO files
+        run: |
+          chmod +x scripts/build_release.sh
+          ./scripts/build_release.sh
+
+      - name: Upload build artifacts to workflow run
+        uses: actions/upload-artifact@v4
+        with:
+          name: model100-game-build
+          path: dist/
+
+      - name: Attach artifacts to GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            dist/TSWEEP_compact.DO
+            dist/TSWEEP_tokenized.BA
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

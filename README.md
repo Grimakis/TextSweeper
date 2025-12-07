@@ -51,8 +51,10 @@ TextSweeper brings the classic Minesweeper game to the TRS-80 Model 100 and comp
 - **`src/TSWEEP.DO`** - Fully commented source code with original formatting
 
 ### Distribution Files
-- **`ascii_packed/TSWEEP.DO`** - Compressed ASCII version for TELCOM transfer
-- **`tokenized_packed/TSWEEP.BA`** - Tokenized binary for mComm/DeskLink transfer
+- **`dist/TSWEEP_compact.DO`** - CI-generated compact ASCII ready for TELCOM
+- **`dist/TSWEEP_tokenized.BA`** - CI-generated tokenized binary for mComm/DeskLink
+- **`ascii_packed/TSWEEP.DO`** - Manually packed ASCII version for TELCOM transfer
+- **`tokenized_packed/TSWEEP.BA`** - Manually tokenized binary for mComm/DeskLink transfer
 
 ### Assembly Subroutines
 Performance-critical routines written in 8085 assembly:
@@ -69,7 +71,14 @@ Performance-critical routines written in 8085 assembly:
 - **`LICENSE`** - Freeware license terms
 
 ### Tools
+- **`tools/model100-basic-tools/`** - Git submodule with the shared packer/tokenizer utilities
 - **`tools/Assembly_tester.ipynb`** - Python utility to convert assembled hex to decimal for DATA statements
+- **`scripts/build_release.sh`** - Builds compact + tokenized artifacts from `src/TSWEEP.DO`
+- **`.github/workflows/release.yml`** - Release workflow that packages and attaches artifacts to GitHub Releases
+
+### Build & Release
+- Run `scripts/build_release.sh` to generate `dist/TSWEEP_compact.DO` and `dist/TSWEEP_tokenized.BA` using the submodule tools.
+- The GitHub Actions workflow checks out submodules, runs the build script, uploads the `dist/` artifacts, and attaches them to a published Release.
 
 ## Installation
 

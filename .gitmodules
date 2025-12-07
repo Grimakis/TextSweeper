@@ -1,0 +1,3 @@
+[submodule "tools/model100-basic-tools"]
+	path = tools/model100-basic-tools
+	url = https://github.com/Grimakis/model100-basic-tools-python.git

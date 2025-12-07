@@ -15,6 +15,15 @@ jobs:
           submodules: recursive
           fetch-depth: 0
 
+      - name: Verify release tag matches source version
+        run: |
+          SRC_VERSION=$(grep -m1 -oE 'VE\$="[0-9]+\.[0-9]+\.[0-9]+"' src/TSWEEP.DO | sed 's/.*"\(.*\)".*/\1/')
+          TAG_VERSION=${GITHUB_REF#refs/tags/}
+          TAG_VERSION=${TAG_VERSION#v}
+          echo "Source version: $SRC_VERSION"
+          echo "Tag version:    $TAG_VERSION"
+          [ "$SRC_VERSION" = "$TAG_VERSION" ] || { echo "Version mismatch: release tag must match src/TSWEEP.DO"; exit 1; }
+
       - name: Build compact and tokenized DO files
         run: |
           chmod +x scripts/build_release.sh

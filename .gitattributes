@@ -7,3 +7,7 @@ tokenized_packed/* linguist-generated
 
 # Ignore Vendor Code
 *.ipynb linguist-vendored
+
+# Enforce LF for shell scripts and workflows
+*.sh text eol=lf
+.github/**/*.yml text eol=lf

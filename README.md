@@ -1,49 +1,130 @@
 # TextSweeper
 
+An implementation of Minesweeper for the TRS-80 Model 100 in BASIC with 8085 assembly subroutines for performance optimization.
+
+[![Version](https://img.shields.io/badge/version-2.7.4-blue.svg)](CHANGELOG.md)
+[![License](https://img.shields.io/badge/license-Freeware-green.svg)](LICENSE)
+
 ## Overview
-An implementation of Minesweeper for the TRS-80 Model 100 in BASIC. Utilizes a 36 by 8 area of the screen to represent the minefield.
 
+TextSweeper brings the classic Minesweeper game to the TRS-80 Model 100 and compatible computers. The game features a 32×8 tile minefield displayed on the 40-column or 80-column screen, with optimized assembly routines for smooth gameplay on 1980s hardware.
 
+## Features
 
-### Hardware supported:   
-- TRS-80 Model 100   
-- Tandy 102   
-- Tandy 200   
-- TRS-80 Disk/Video Interface (DVI)   
+- **Multiple difficulty levels**: Easy, Medium, Hard, Classic, and Custom (10-217 mines)
+- **Chord reveal**: Click a satisfied tile to reveal all adjacent tiles automatically
+- **Hardware optimization**: Assembly subroutines for mine generation and flood-fill operations
+- **Multi-platform support**: Works on Model 100, 102, 200, and DVI
+- **Responsive controls**: WASD or arrow keys, with configurable flag placement
 
-### Controls:
+## Hardware Supported
+
+- TRS-80 Model 100
+- Tandy 102
+- Tandy 200
+- TRS-80 Disk/Video Interface (DVI)
+- 40-column and 80-column display modes
+
+## Controls
 
 | Key | Action |
 | --- | ------ |
-| WASD / Arrow Keys | Move the cursor around the minefield |
-| F | Set or Unset the Flag on a tile |
-| Spacebar / Enter | Check a tile for a mine, or reveal adjacent tiles for a satisfied tile |
-| H | Bring up the help screen (Model 100/102 only) or return to game |
-| F8 | Exit to MENU |
+| **WASD** / **Arrow Keys** | Move the cursor around the minefield |
+| **F** | Set or unset flag on a tile |
+| **Spacebar** / **Enter** | Reveal a tile, or chord reveal adjacent tiles |
+| **H** | Bring up help screen (Model 100/102 only) or return to game |
+| **F8** | Exit to MENU |
 
-### Difficulty Options:
+## Difficulty Options
 
-| Setting | # of Mines | Minefield Density |
-| ------- | ---------- | ----------------- |
+| Setting | Mines | Density |
+| ------- | ----- | ------- |
 | Easy | 30 | 11.72% |
 | Medium | 46 | 17.97% |
 | Hard | 52 | 20.31% |
 | Classic | 36 | 14.06% |
-| Custom | 10-217 | ?% | 
+| Custom | 10-217 | Variable |
 
-## Files
-### src/
-- TSWEEP.DO - Original source code for Text Sweeper. All comments and original formatting are included.
+## Repository Structure
 
-### ascii_packed/
-- TSWEEP.DO - Text source, compressed and renumbered using ROM2/Cleuseau. All comments are removed to minimize size. If transfering using TELCOM, use this version.
+### Source Code
+- **`src/TSWEEP.DO`** - Fully commented source code with original formatting
 
-### tokenized_packed/
-- TSWEEP.BA - Tokenized version of TSWEEP.DO found in ascii_packed/. If transferring using mComm, DeskLink and other methods that load files directly into the filesystem, use this version.
+### Distribution Files
+- **`dist/ascii_packed/TSWEEP.DO`** - CI-generated compact ASCII ready for TELCOM
+- **`dist/tokenized_packed/TSWEEP.BA`** - CI-generated tokenized binary for mComm/DeskLink
 
-### assembly_subroutines/
-- Assembly_tester.ipynb - A Jupyter Notebook written in Python. Used as a utility to convert already assembled hex code into decimal, for the purpose of injecting into BASIC in DATA statements
-- CALC_BOUND.8085.ASM - A subroutine that is used to calculate the x,y boundaries used to search for adjacent mines.
-- GENERATE_TILE_ARRAY.8085.ASM - A subroutine that is used to populate an array with all initial valid mine positions (x,y)
-- TEST_FIND_OFFSET.8085.ASM - A subroutine that returns the index of the nth valid mine position in the array.
+### Assembly Subroutines
+Performance-critical routines written in 8085 assembly:
 
+- **`CALC_BOUND.8085.ASM`** - Calculate adjacent tile boundaries
+- **`GENERATE_TILE_ARRAY.8085.ASM`** - Generate initial mine pool
+- **`SHIFT_VALID_MINES.8085.ASM`** - Adjust mine pool for excluded tiles
+- **`LCD_TO_ALTLCD.8085.ASM`** - Copy screen to buffer
+- **`ALTLCD_PRINT.8085.ASM`** - Print buffer to screen
+
+### Documentation
+- **`docs/VARIABLES.md`** - Comprehensive variable reference
+- **`CHANGELOG.md`** - Version history and release notes
+- **`LICENSE`** - Freeware license terms
+
+### Tools
+- **`tools/model100-basic-tools/`** - Git submodule with the shared packer/tokenizer utilities
+- **`tools/Assembly_tester.ipynb`** - Python utility to convert assembled hex to decimal for DATA statements
+- **`scripts/build_release.sh`** - Builds compact + tokenized artifacts from `src/TSWEEP.DO`
+- **`.github/workflows/release.yml`** - Release workflow that packages and attaches artifacts to GitHub Releases
+
+### Build & Release
+- Run `scripts/build_release.sh` to generate `dist/ascii_packed/TSWEEP.DO` and `dist/tokenized_packed/TSWEEP.BA` using the submodule tools.
+- The GitHub Actions workflow checks out submodules, runs the build script, uploads the `dist/` artifacts, and attaches them to a published Release.
+
+## Installation
+
+### For TELCOM (Serial Transfer)
+1. Use `dist/ascii_packed/TSWEEP.DO` (from CI artifacts or Release downloads)
+2. Transfer via serial connection
+3. Load and run in BASIC
+
+### For mComm/DeskLink (Direct File Transfer)
+1. Use `dist/tokenized_packed/TSWEEP.BA` (from CI artifacts or Release downloads)
+2. Copy directly to Model 100 filesystem
+3. Run from MENU
+
+## Development
+
+### Assembly Integration
+Assembly subroutines are stored as DATA statements in the BASIC code and loaded into memory at runtime. The `tools/Assembly_tester.ipynb` notebook converts assembled machine code to decimal format for embedding in BASIC.
+
+### Memory Layout
+- **Screen buffer**: ALTLCD at -832 (M100/102) or -2128 (M200)
+- **Assembly routines**: Loaded dynamically into BASIC arrays
+- **Game state**: 3D array S%(31,7,2) stores reveal state, flags, and mine counts
+
+See [docs/VARIABLES.md](docs/VARIABLES.md) for complete memory and variable documentation.
+
+## Performance
+
+Version 2.7.4 includes optimizations:
+- String conversion optimization (~3% improvement in flood-fill)
+- Assembly boundary calculation
+- Stack-based flood-fill using ALTLCD buffer
+
+## Version History
+
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
+
+**Current Version**: 2.7.4 (December 2025)
+
+## License
+
+Copyright © 2017-2025 George M. Rimakis. All rights reserved.
+
+This software is provided as **freeware** for personal, non-commercial use. You may use, copy, and distribute the unmodified software freely. Modifications are permitted for personal use only. See [LICENSE](LICENSE) for full terms.
+
+## Author
+
+Created by George M. Rimakis
+
+---
+
+*TextSweeper - Bringing classic puzzle gaming to vintage portable computers since 2017*

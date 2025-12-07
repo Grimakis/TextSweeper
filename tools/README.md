@@ -1,5 +1,56 @@
 # TextSweeper Development Tools
 
+## pack_basic.py
+
+Python-based BASIC code packer that removes comments, strips whitespace, merges lines, and renumbers for maximum compression. Replaces the need for ROM2/Cleuseau running in a Tandy emulator.
+
+### Features
+
+- **Comment removal**: Strips all comment lines and inline comments
+- **Space optimization**: Removes unnecessary spaces (preserves required spaces before AND/OR)
+- **Line merging**: Combines non-target lines to reduce line count
+- **Smart renumbering**: Renumbers to sequential 1, 2, 3... (saves bytes in tokenized format)
+- **Line length enforcement**: Respects 255-character limit for TRS-80 Model 100
+- **Reference updating**: Automatically updates all GOTO/GOSUB/THEN/ELSE line number references
+
+### Usage
+
+```bash
+python pack_basic.py src/TSWEEP.DO ascii_packed/TSWEEP.DO
+```
+
+### Example Output
+
+```
+Parsed 144 non-comment lines
+Found 41 line number targets
+Merged into 56 lines
+
+Line number range: 1-54010 -> 1-56
+Line number bytes saved: 647 -> 103 (544 bytes)
+
+Packed: src/TSWEEP.DO -> ascii_packed/TSWEEP.DO
+```
+
+### How It Works
+
+1. **Parse**: Reads source file, removes comment-only lines
+2. **Find targets**: Identifies all line numbers referenced by GOTO/GOSUB/THEN/ELSE
+3. **Pack**: Removes comments and excess spaces from each line
+4. **Merge**: Combines consecutive non-target lines with `:` separator
+5. **Length check**: Splits lines exceeding 255 characters
+6. **Renumber**: Assigns sequential line numbers starting from 1
+7. **Update references**: Updates all GOTO/GOSUB/THEN/ELSE to new line numbers
+
+### Notes
+
+- Target lines (referenced by GOTO/GOSUB) cannot be merged
+- Lines are merged until they reach ~250 characters (leaving headroom for line number)
+- More aggressive than ROM2/Cleuseau (better compression)
+- Preserves spaces before AND/OR keywords for BASIC parser compatibility
+
+---
+
 ## hex_to_data.py
 
 Converts assembled 8085 machine code (in hexadecimal format) to BASIC DATA statements for embedding in TextSweeper.

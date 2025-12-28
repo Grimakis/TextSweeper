@@ -71,12 +71,11 @@ Performance-critical routines written in 8085 assembly:
 ### Tools
 - **`tools/model100-basic-tools/`** - Git submodule with the shared packer/tokenizer utilities
 - **`tools/Assembly_tester.ipynb`** - Python utility to convert assembled hex to decimal for DATA statements
-- **`scripts/build_release.sh`** - Builds compact + tokenized artifacts from `src/TSWEEP.DO`
 - **`.github/workflows/release.yml`** - Release workflow that packages and attaches artifacts to GitHub Releases
 
 ### Build & Release
-- Run `scripts/build_release.sh` to generate `dist/ascii_packed/TSWEEP.DO` and `dist/tokenized_packed/TSWEEP.BA` using the submodule tools.
-- The GitHub Actions workflow checks out submodules, runs the build script, uploads the `dist/` artifacts, and attaches them to a published Release.
+- Release artifacts are built via the shared GitHub release workflow on `v*` tags.
+- The workflow builds via the Model 100 CLI and attaches the `dist/` artifacts to the GitHub Release.
 
 ## Installation
 

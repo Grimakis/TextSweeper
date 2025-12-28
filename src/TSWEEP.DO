@@ -1,7 +1,7 @@
-1 CLEAR:VE$="2.7.4":CLS
+1 CLEAR:VE$="2.7.5":CLS
 2 ' COPYRIGHT, GEORGE M. RIMAKIS, 2017-2025.
 3 ' ALL RIGHTS RESERVED.
-4 ' SOURCE OF TRUTH. Build dist/*.DO and dist/*.BA via scripts/build_release.sh.
+4 ' SOURCE OF TRUTH. Build dist/*.DO and dist/*.BA via the shared release workflow.
 10 IF PEEK(1) = 51 OR PEEK(1) = 167 THEN AL%=-832 ELSE IF PEEK(1) = 171 THEN AL%=-2128 ' define altlcd start
 100 YO%=40:IF PEEK(1)<>171 AND PEEK(63035)=8 THEN LD%=0 : H$="  [H]elp" : GOTO 900 
 110 IF (PEEK(1)<>171 AND PEEK(63035)=25) OR (PEEK(1)=171 AND PEEK(61190)=25) THEN PO%=640 ELSE PO%=320

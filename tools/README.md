@@ -2,7 +2,7 @@
 
 Tools for packing and tokenizing BASIC code for TRS-80 Model 100/102 and Tandy 200 computers.
 
-> Tools are now provided via the `tools/model100-basic-tools` git submodule. Use the scripts in `tools/model100-basic-tools/src/` or run `scripts/build_release.sh` from the repo root.
+> Tools are provided via the `tools/model100-basic-tools` git submodule. Use the scripts in `tools/model100-basic-tools/src/` for manual builds.
 
 ## Complete Workflow
 

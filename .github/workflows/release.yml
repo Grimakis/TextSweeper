@@ -1,47 +1,19 @@
-name: Build and Attach Model 100 Release Artifacts
+name: Build and Release TextSweeper Artifacts
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
 
 jobs:
-  build-and-upload:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write  # required for release asset upload with GITHUB_TOKEN
-
-    steps:
-      - name: Checkout repository (with submodules)
-        uses: actions/checkout@v4
-        with:
-          submodules: recursive
-          fetch-depth: 0
-
-      - name: Verify release tag matches source version
-        run: |
-          SRC_VERSION=$(grep -m1 -oE 'VE\$="[0-9]+\.[0-9]+\.[0-9]+"' src/TSWEEP.DO | sed 's/.*"\(.*\)".*/\1/')
-          TAG_VERSION=${GITHUB_REF#refs/tags/}
-          TAG_VERSION=${TAG_VERSION#v}
-          echo "Source version: $SRC_VERSION"
-          echo "Tag version:    $TAG_VERSION"
-          [ "$SRC_VERSION" = "$TAG_VERSION" ] || { echo "Version mismatch: release tag must match src/TSWEEP.DO"; exit 1; }
-
-      - name: Build compact and tokenized DO files
-        run: |
-          chmod +x scripts/build_release.sh
-          ./scripts/build_release.sh
-
-      - name: Upload build artifacts to workflow run
-        uses: actions/upload-artifact@v4
-        with:
-          name: model100-game-build
-          path: dist/
-
-      - name: Attach artifacts to GitHub Release
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            dist/ascii_packed/TSWEEP.DO
-            dist/tokenized_packed/TSWEEP.BA
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  release:
+    uses: Grimakis/m100-release-workflow/.github/workflows/release.yml@v1
+    with:
+      source: src/TSWEEP.DO
+      ascii-name: TSWEEP.DO
+      tokenized-name: TSWEEP.BA
+      version-var: "VE$"
+    secrets: inherit
